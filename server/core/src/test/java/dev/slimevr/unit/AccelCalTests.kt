@@ -29,7 +29,7 @@ class AccelCalTests {
 
 		// Let's assume the initial state is the bone pointing down (-1 Y)
 		// We take the opposite rotation vector of the current rotation to point back to the bone head
-		return -((rot2 * rot1).sandwich(Vector3.NEG_Y) * centripetalAccelMag)
+		return -(rot2.sandwich(Vector3.NEG_Y) * centripetalAccelMag)
 	}
 
 	fun centripetalAccel(tracker: Tracker, lastFrame: TrackerFrame, curFrame: TrackerFrame): Vector3 = centripetalAccel(lastFrame.rot, curFrame.rot, tracker.boneLength, curFrame.timeOffset)
