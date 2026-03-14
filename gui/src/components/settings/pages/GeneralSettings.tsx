@@ -17,7 +17,6 @@ import {
   HIDSettingsT,
   BodyPart,
 } from 'solarxr-protocol';
-import { DropdownItem } from '@/components/commons/Dropdown';
 import { useConfig } from '@/hooks/config';
 import { useWebsocketAPI } from '@/hooks/websocket-api';
 import { useLocaleConfig } from '@/i18n/config';
@@ -27,6 +26,7 @@ import { WrenchIcon } from '@/components/commons/icon/WrenchIcons';
 import { NumberSelector } from '@/components/commons/NumberSelector';
 import { Radio } from '@/components/commons/Radio';
 import { Typography } from '@/components/commons/Typography';
+import { DropdownItem } from '@/components/commons/Dropdown';
 import {
   SettingsPageLayout,
   SettingsPagePaneLayout,
@@ -99,9 +99,9 @@ export type SettingsForm = {
     fullResetTaps: number;
     mountingResetTaps: number;
     numberTrackersOverThreshold: number;
-    yawResetTracker: string;
-    mountingResetTracker: string;
-    fullResetTracker: string;
+    yawResetTracker: BodyPart;
+    mountingResetTracker: BodyPart;
+    fullResetTracker: BodyPart;
   };
   legTweaks: {
     correctionStrength: number;
@@ -162,9 +162,9 @@ const defaultValues: SettingsForm = {
     fullResetTaps: 3,
     mountingResetTaps: 3,
     numberTrackersOverThreshold: 1,
-    yawResetTracker: 'Default',
-    mountingResetTracker: 'Default',
-    fullResetTracker: 'Default',
+    yawResetTracker: BodyPart.CHEST,
+    mountingResetTracker: BodyPart.RIGHT_UPPER_LEG,
+    fullResetTracker: BodyPart.LEFT_UPPER_LEG,
   },
   legTweaks: { correctionStrength: 0.3 },
   resetsSettings: defaultResetSettings,
@@ -172,41 +172,41 @@ const defaultValues: SettingsForm = {
   hidSettings: { trackersOverHID: false },
 };
 
-const BodyParts = [
+const BodyParts: DropdownItem[] = [
   {
-    value: 'skeleton.chestTracker',
+    value: 'CHEST',
     label: 'Chest',
   },
   {
-    value: 'skeleton.waistTracker',
+    value: 'WAIST',
     label: 'Waist',
   },
   {
-    value: 'skeleton.hipTracker',
+    value: 'HIP',
     label: 'Hip',
   },
   {
-    value: 'skeleton.rightUpperLegTracker',
+    value: 'RIGHT_UPPER_LEG',
     label: 'Right Thigh',
   },
   {
-    value: 'skeleton.rightLowerLegTracker',
+    value: 'RIGHT_LOWER_LEG',
     label: 'Right Ankle',
   },
   {
-    value: 'skeleton.rightFootTracker',
+    value: 'RIGHT_FOOT',
     label: 'Right Foot',
   },
   {
-    value: 'skeleton.leftUpperLegTracker',
+    value: 'LEFT_UPPER_LEG',
     label: 'Left Thigh',
   },
   {
-    value: 'skeleton.leftLowerLegTracker',
+    value: 'LEFT_LOWER_LEG',
     label: 'Left Ankle',
   },
   {
-    value: 'skeleton.leftFootTracker',
+    value: 'LEFT_FOOT',
     label: 'Left foot',
   },
 ];
@@ -311,17 +311,26 @@ export function GeneralSettings() {
     tapDetection.fullResetDelay = values.tapDetection.fullResetDelay;
     tapDetection.fullResetEnabled = values.tapDetection.fullResetEnabled;
     tapDetection.fullResetTaps = values.tapDetection.fullResetTaps;
+    tapDetection.fullResetTracker =
+      BodyPart[
+        values.tapDetection.fullResetTracker as unknown as keyof typeof BodyPart
+      ];
     tapDetection.yawResetDelay = values.tapDetection.yawResetDelay;
     tapDetection.yawResetEnabled = values.tapDetection.yawResetEnabled;
     tapDetection.yawResetTaps = values.tapDetection.yawResetTaps;
-    tapDetection.yawResetTracker = values.tapDetection.yawResetTracker;
-    tapDetection.mountingResetTracker =
-      values.tapDetection.mountingResetTracker;
-    tapDetection.fullResetTracker = values.tapDetection.fullResetTracker;
+    tapDetection.yawResetTracker =
+      BodyPart[
+        values.tapDetection.yawResetTracker as unknown as keyof typeof BodyPart
+      ];
     tapDetection.mountingResetEnabled =
       values.tapDetection.mountingResetEnabled;
     tapDetection.mountingResetDelay = values.tapDetection.mountingResetDelay;
     tapDetection.mountingResetTaps = values.tapDetection.mountingResetTaps;
+    tapDetection.mountingResetTracker =
+      BodyPart[
+        values.tapDetection
+          .mountingResetTracker as unknown as keyof typeof BodyPart
+      ];
     tapDetection.numberTrackersOverThreshold =
       values.tapDetection.numberTrackersOverThreshold;
     tapDetection.setupMode = false;
