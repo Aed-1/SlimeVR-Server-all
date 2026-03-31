@@ -172,45 +172,6 @@ const defaultValues: SettingsForm = {
   hidSettings: { trackersOverHID: false },
 };
 
-const BodyParts1: DropdownItem[] = [
-  {
-    value: 'CHEST',
-    label: 'Chest',
-  },
-  {
-    value: 'WAIST',
-    label: 'Waist',
-  },
-  {
-    value: 'HIP',
-    label: 'Hip',
-  },
-  {
-    value: 'RIGHT_UPPER_LEG',
-    label: 'Right Thigh',
-  },
-  {
-    value: 'RIGHT_LOWER_LEG',
-    label: 'Right Ankle',
-  },
-  {
-    value: 'RIGHT_FOOT',
-    label: 'Right Foot',
-  },
-  {
-    value: 'LEFT_UPPER_LEG',
-    label: 'Left Thigh',
-  },
-  {
-    value: 'LEFT_LOWER_LEG',
-    label: 'Left Ankle',
-  },
-  {
-    value: 'LEFT_FOOT',
-    label: 'Left foot',
-  },
-];
-
 const BodyParts: { value: BodyPart; label: string }[] = [
   {
     value: BodyPart.CHEST,
@@ -1329,7 +1290,10 @@ export function GeneralSettings() {
                     control={control}
                     placeholder={''}
                     name="tapDetection.yawResetTracker"
-                    items={BodyParts1}
+                    items={BodyParts.map(({ label, value }) => ({
+                      label: label,
+                      value: BodyPart[value],
+                    }))}
                   />
                 </div>
 
