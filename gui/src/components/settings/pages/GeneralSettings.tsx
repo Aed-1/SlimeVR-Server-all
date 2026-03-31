@@ -172,7 +172,7 @@ const defaultValues: SettingsForm = {
   hidSettings: { trackersOverHID: false },
 };
 
-const BodyParts: DropdownItem[] = [
+const BodyParts1: DropdownItem[] = [
   {
     value: 'CHEST',
     label: 'Chest',
@@ -207,6 +207,45 @@ const BodyParts: DropdownItem[] = [
   },
   {
     value: 'LEFT_FOOT',
+    label: 'Left foot',
+  },
+];
+
+const BodyParts: { value: BodyPart; label: string }[] = [
+  {
+    value: BodyPart.CHEST,
+    label: 'Chest',
+  },
+  {
+    value: BodyPart.WAIST,
+    label: 'Waist',
+  },
+  {
+    value: BodyPart.HIP,
+    label: 'Hip',
+  },
+  {
+    value: BodyPart.RIGHT_UPPER_LEG,
+    label: 'Right Thigh',
+  },
+  {
+    value: BodyPart.RIGHT_LOWER_LEG,
+    label: 'Right Ankle',
+  },
+  {
+    value: BodyPart.RIGHT_FOOT,
+    label: 'Right Foot',
+  },
+  {
+    value: BodyPart.LEFT_UPPER_LEG,
+    label: 'Left Thigh',
+  },
+  {
+    value: BodyPart.LEFT_LOWER_LEG,
+    label: 'Left Ankle',
+  },
+  {
+    value: BodyPart.LEFT_FOOT,
     label: 'Left foot',
   },
 ];
@@ -315,6 +354,11 @@ export function GeneralSettings() {
       BodyPart[
         values.tapDetection.fullResetTracker as unknown as keyof typeof BodyPart
       ];
+    console.log(
+      BodyPart[
+        values.tapDetection.yawResetTracker as unknown as keyof typeof BodyPart
+      ]
+    );
     tapDetection.yawResetDelay = values.tapDetection.yawResetDelay;
     tapDetection.yawResetEnabled = values.tapDetection.yawResetEnabled;
     tapDetection.yawResetTaps = values.tapDetection.yawResetTaps;
@@ -1281,33 +1325,36 @@ export function GeneralSettings() {
               <div className="grid sm:grid-cols-3 gap-5 pb-2">
                 <div>
                   Choose Which tracker location you want to use this reset with!
-                  Defaults are Chest, Upper chest, Hip and waist
                   <Dropdown
                     control={control}
-                    placeholder="Default"
+                    placeholder={''}
                     name="tapDetection.yawResetTracker"
-                    items={BodyParts}
+                    items={BodyParts1}
                   />
                 </div>
 
                 <div>
                   Choose Which tracker location you want to use this reset with!
-                  Defaults are right thigh and right ankle
                   <Dropdown
                     control={control}
-                    placeholder=""
+                    placeholder={''}
                     name="tapDetection.mountingResetTracker"
-                    items={BodyParts}
+                    items={BodyParts.map(({ label, value }) => ({
+                      label: label,
+                      value: BodyPart[value],
+                    }))}
                   />
                 </div>
                 <div>
                   Choose Which tracker location you want to use this reset with!
-                  Defaults are left thigh and left ankle
                   <Dropdown
                     control={control}
-                    placeholder="Default"
+                    placeholder={''}
                     name="tapDetection.fullResetTracker"
-                    items={BodyParts}
+                    items={BodyParts.map(({ label, value }) => ({
+                      label: label,
+                      value: BodyPart[value],
+                    }))}
                   />
                 </div>
               </div>
